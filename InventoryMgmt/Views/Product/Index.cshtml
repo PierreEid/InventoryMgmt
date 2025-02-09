@@ -7,40 +7,38 @@
 
 <h2>Products</h2>
 
-@if (TempData["success"] != null)
-{
-<div class="alert alert-success" role="alert">
-    @TempData["success"]
-</div>
-}
-
 @if (Model.Any())
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Low Stock Threshold</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.ProductId</td>
-                <td>@product.ProductName</td>
-                <td>@product.Category.Name</td>
-                <td>@product.Price.ToString("C")</td>
-                <td>@product.Quantity</td>
-                <td>@product.LowStockThreshold</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="row">
+
+            @foreach (var product in Model)
+            {
+            <div class="col-md-3 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <p class="card-text">Category: @product.Category.Name</p>
+                        <p class="card-text">Price: @product.Price.ToString("C")</p>
+                        <p class="card-text">Stock: @product.Quantity</p>
+                        <a href="#" class="btn btn-primary">View</a>
+                        
+                        @if (product.Quantity == 0)
+                        {
+                            <a href="#" class="btn btn-success disabled">Add to Order</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-success">Add to Order</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+
+        </div>
+    </div>
+
 }
 else
 {

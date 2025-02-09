@@ -25,6 +25,14 @@ public class ProductController : Controller
     }
     
     [HttpGet]
+    public IActionResult Manage()
+    {
+        // var products = _context.Products.ToList();
+        var products = _context.Products.Include(p => p.Category).ToList();
+        return View(products);
+    }
+    
+    [HttpGet]
     public IActionResult Add()
     {
         // Get all the categories and their IDs for the dropdown menu
@@ -43,7 +51,7 @@ public class ProductController : Controller
             _context.SaveChanges();
             
             TempData["Success"] = "Product added successfully";
-            return RedirectToAction("Index");
+            return RedirectToAction("Manage");
         }
         
         // Debugging
