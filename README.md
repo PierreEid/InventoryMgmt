@@ -6,3 +6,4 @@ How to set-up locally:
 4  - Open Terminal in the project directory
 5  - Run "dotnet ef database update"
 6  - Run the project in Rider
+
