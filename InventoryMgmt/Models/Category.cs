@@ -9,8 +9,9 @@ public class Category
     [Required]
     public required string Name { get; set; }
     
-    // public string Slug { get; set; } -- may include later for sorting
-    
     public string? Description { get; set; } // Can be null
+    
+    // Navigation Property: One Category -> Many Products
+    public List<Product> Products { get; set; } = new();
     
 }

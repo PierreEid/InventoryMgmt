@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InventoryMgmt.Models;
 
@@ -10,7 +11,10 @@ public class Product
     public required string ProductName { get; set; }
     
     [Required]
-    public required string Category { get; set; }
+    public int CategoryId { get; set; }  // Foreign key
+
+    [ForeignKey("CategoryId")]
+    public Category Category { get; set; } = null!; // Navigation property
     
     [Required]
     public required double Price { get; set; }
