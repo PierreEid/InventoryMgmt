@@ -72,5 +72,35 @@ public class ProductController : Controller
         ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
         return View(product);
     }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        // Get the specific product
+        var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
+
+        if (product == null)
+        {
+            return NotFound();
+        }
+        return View(product);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int productId)
+    {
+        var product = _context.Products.Find(productId);
+
+        if (product != null)
+        {
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+            TempData["Success"] = "Product deleted successfully!";
+            return RedirectToAction("Manage");
+        }
+        
+        return NotFound();
+    }
     
 }
