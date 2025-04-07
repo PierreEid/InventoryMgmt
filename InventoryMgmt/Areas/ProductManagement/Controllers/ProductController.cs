@@ -1,11 +1,14 @@
 using InventoryMgmt.Data;
 using InventoryMgmt.Models;
+using InventoryMgmt.Areas.ProductManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace InventoryMgmt.Controllers;
+namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
+[Area("ProductManagement")]
+[Route("[area]/[controller]/[action]")]
 public class ProductController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the database context

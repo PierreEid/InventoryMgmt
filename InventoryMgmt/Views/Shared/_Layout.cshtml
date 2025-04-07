@@ -27,31 +27,31 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Category</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">All Categories</a></li>
-                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Add">Add Category</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Category" asp-action="Index">All Categories</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Category" asp-action="Add">Add Category</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Product</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">All Products</a></li>
-                            <li><a class="dropdown-item" asp-controller="Product" asp-action="Add">Add Product</a></li>
-                            <li><a class="dropdown-item" asp-controller="Product" asp-action="Manage">Manage Products</a></li>
-                            <li><a class="dropdown-item" asp-controller="Product" asp-action="LowStock">Low Stock</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Product" asp-action="Index">All Products</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Product" asp-action="Add">Add Product</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Product" asp-action="Manage">Manage Products</a></li>
+                            <li><a class="dropdown-item" asp-area="ProductManagement" asp-controller="Product" asp-action="LowStock">Low Stock</a></li>
                         </ul>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
+                        <a class="nav-link text-dark" asp-area="ProductManagement" asp-controller="Cart" asp-action="Index">Cart</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                        <a class="nav-link text-dark" asp-area="ProductManagement" asp-controller="Order" asp-action="Index">Orders</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        <a class="nav-link text-dark" asp-area="ProductManagement" asp-controller="Home" asp-action="About">About</a>
                     </li>
                     
                 </ul>

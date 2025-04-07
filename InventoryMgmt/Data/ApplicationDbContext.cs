@@ -1,4 +1,5 @@
 using InventoryMgmt.Models;
+using InventoryMgmt.Areas.ProductManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryMgmt.Data;

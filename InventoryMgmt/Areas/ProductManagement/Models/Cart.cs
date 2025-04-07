@@ -1,4 +1,4 @@
-namespace InventoryMgmt.Models;
+namespace InventoryMgmt.Areas.ProductManagement.Models;
 
 public class Cart
 {

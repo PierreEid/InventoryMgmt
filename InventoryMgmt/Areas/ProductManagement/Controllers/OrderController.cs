@@ -1,8 +1,10 @@
 using InventoryMgmt.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryMgmt.Controllers;
+namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
+[Area("ProductManagement")]
+[Route("[area]/[controller]/[action]")]
 public class OrderController : Controller
 {
     private readonly ApplicationDbContext _context;

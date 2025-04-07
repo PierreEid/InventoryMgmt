@@ -1,10 +1,13 @@
 using System.Text.Json;
 using InventoryMgmt.Data;
 using InventoryMgmt.Models;
+using InventoryMgmt.Areas.ProductManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryMgmt.Controllers;
+namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
+[Area("ProductManagement")]
+[Route("[area]/[controller]/[action]")]
 public class CartController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the db context

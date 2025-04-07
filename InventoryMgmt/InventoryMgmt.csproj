@@ -17,7 +17,30 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Areas\ProductManagement\Views\" />
       <Folder Include="wwwroot\img\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Cart\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Order\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Cart\Index.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Category\Add.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Category\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Category\Edit.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Category\Index.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Order\Index.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\Add.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\Delete.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\Edit.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\Index.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\LowStock.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\Manage.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\View.cshtml" />
+      <AdditionalFiles Include="Areas\ProductManagement\Views\Product\_ProductList.cshtml" />
     </ItemGroup>
 
 </Project>

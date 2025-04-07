@@ -1,10 +1,13 @@
 using InventoryMgmt.Data;
 using InventoryMgmt.Models;
+using InventoryMgmt.Areas.ProductManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace InventoryMgmt.Controllers;
+namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
+[Area("ProductManagement")]
+[Route("[area]/[controller]/[action]")]
 public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the database context
@@ -15,7 +18,7 @@ public class CategoryController : Controller
         _context = context;
     }
     
-    [HttpGet]
+    [HttpGet("Add")]
     public IActionResult Index()
     {
         // Get all the categories
@@ -29,7 +32,7 @@ public class CategoryController : Controller
         return View();
     }
 
-    [HttpPost]
+    [HttpPost("Add")]
     [ValidateAntiForgeryToken]
     public IActionResult Add(Category category)
     {
