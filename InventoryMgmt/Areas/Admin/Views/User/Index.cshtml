@@ -1,0 +1,43 @@
+@model List<UserWithRolesViewModel>
+@{
+    ViewBag.Title = "User Management";
+    Layout = "_Layout";
+}
+
+<h2>Users</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Email</th>
+        <th>User Name</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>@user.UserName</td>
+            <td>
+                @if (user.Roles != null && user.Roles.Any())
+                {
+                    foreach (var role in user.Roles)
+                    {
+                        <span class="badge bg-secondary me-1">@role</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">No roles</span>
+                }
+            </td>
+            <td>
+                <!-- Later: Add buttons to edit, delete, assign roles -->
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

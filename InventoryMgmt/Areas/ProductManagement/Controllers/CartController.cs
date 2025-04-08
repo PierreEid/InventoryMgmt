@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
 [Area("ProductManagement")]
-[Route("[area]/[controller]/[action]")]
+[Route("[area]/[controller]")]
 public class CartController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the db context
@@ -18,7 +18,7 @@ public class CartController : Controller
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("")]
     public IActionResult Index()
     {
         // Get cart from session and return it to the view
@@ -27,7 +27,7 @@ public class CartController : Controller
     }
 
     // Add products to the cart
-    [HttpGet]
+    [HttpGet("AddToCart/{productId:int}")]
     public IActionResult AddToCart(int productId)
     {
         // Get the product from db
@@ -72,7 +72,7 @@ public class CartController : Controller
     }
 
     // Remove Item from Cart
-    [HttpGet]
+    [HttpGet("RemoveFromCart/{id:int}")]
     public IActionResult RemoveFromCart(int productId)
     {
         // Get cart from session
@@ -89,7 +89,7 @@ public class CartController : Controller
     }
 
     // Checkout: Save Order to Database
-    [HttpPost]
+    [HttpPost("PlaceOrder")]
     [ValidateAntiForgeryToken]
     public IActionResult PlaceOrder(string Name)
     {

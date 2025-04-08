@@ -39,15 +39,55 @@ public static class IdentitySeeder
         var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        // Ensure role exists
+        // Ensure admin role exists
         string adminRole = "Admin";
         if (!await roleManager.RoleExistsAsync(adminRole))
         {
             await roleManager.CreateAsync(new IdentityRole(adminRole));
         }
+        
+        // Ensure manager role exists
+        string managerRole = "Manager";
+        if (!await roleManager.RoleExistsAsync(managerRole))
+        {
+            await roleManager.CreateAsync(new IdentityRole(managerRole));
+        }
+        
+        // Check if the manager user already exists
+        string managerEmail = "manager@example.com";
+        string managerPassword = "Manager@123"; // Strong password!
+
+        var managerUser = await userManager.FindByEmailAsync(managerEmail);
+        if (managerUser == null)
+        {
+            var user = new IdentityUser
+            {
+                UserName = managerEmail,
+                Email = managerEmail,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(user, managerPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, managerRole);
+                Console.WriteLine("Manager user created.");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Error creating manager user: {error.Description}");
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Manager user already exists.");
+        }
 
         // Check if the admin user already exists
-        string adminEmail = "soman.ahmad@georgebrown.ca";
+        string adminEmail = "admin@example.com";
         string adminPassword = "Admin@123"; // Strong password!
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);

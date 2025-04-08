@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
 [Area("ProductManagement")]
-[Route("[area]/[controller]/[action]")]
+[Route("[area]/[controller]")]
 public class OrderController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -14,7 +14,7 @@ public class OrderController : Controller
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet("")]
     public IActionResult Index()
     {
         var orders = _context.Orders.OrderByDescending(o => o.OrderId).ToList();

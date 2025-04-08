@@ -1,6 +1,7 @@
 using InventoryMgmt.Data;
 using InventoryMgmt.Models;
 using InventoryMgmt.Areas.ProductManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
 [Area("ProductManagement")]
-[Route("[area]/[controller]/[action]")]
+[Route("[area]/[controller]")]
 public class ProductController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the database context
@@ -65,7 +66,7 @@ public class ProductController : Controller
         return View(products.ToList());
     }
 
-    [HttpGet]
+    [HttpGet("FilterProducts")]
     public IActionResult FilterProducts(string searchQuery, int? categoryId, string sortBy)
     {
         var products = _context.Products.Include(p => p.Category).AsQueryable();
@@ -103,6 +104,7 @@ public class ProductController : Controller
         return PartialView("_ProductList", products.ToList());
     }
     
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Manage")]
     public IActionResult Manage()
     {
@@ -111,7 +113,8 @@ public class ProductController : Controller
         return View(products);
     }
     
-    [HttpGet]
+    [Authorize(Roles = "Admin, Manager")]
+    [HttpGet("Add")]
     public IActionResult Add()
     {
         // Get all the categories and their IDs for the dropdown menu
@@ -120,6 +123,7 @@ public class ProductController : Controller
         return View();
     }
     
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Add")]
     [ValidateAntiForgeryToken]
     public IActionResult Add(Product product)
@@ -152,6 +156,7 @@ public class ProductController : Controller
         return View(product);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Delete/{id:int}")]
     public IActionResult Delete(int id)
     {
@@ -165,6 +170,7 @@ public class ProductController : Controller
         return View(product);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Delete/{productId:int}"), ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int productId)
@@ -182,6 +188,7 @@ public class ProductController : Controller
         return NotFound();
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("LowStock")]
     public IActionResult LowStock()
     {
@@ -190,6 +197,7 @@ public class ProductController : Controller
         return View(products);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Edit/{id:int}")]
     public IActionResult Edit(int id)
     {
@@ -206,6 +214,7 @@ public class ProductController : Controller
         return View(product);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Edit/{id:int}")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id,

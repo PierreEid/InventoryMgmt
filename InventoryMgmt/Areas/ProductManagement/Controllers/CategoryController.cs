@@ -1,13 +1,14 @@
 using InventoryMgmt.Data;
 using InventoryMgmt.Models;
 using InventoryMgmt.Areas.ProductManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
 [Area("ProductManagement")]
-[Route("[area]/[controller]/[action]")]
+[Route("[area]/[controller]")]
 public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the database context
@@ -26,6 +27,7 @@ public class CategoryController : Controller
         return View(categories);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Create")]
     public IActionResult Create()
     {
@@ -33,6 +35,7 @@ public class CategoryController : Controller
         return View();
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Create")]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Category category)
@@ -49,6 +52,7 @@ public class CategoryController : Controller
         return View(category);
     }
     
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Edit/{id:int}")]
     public IActionResult Edit(int id)
     {
@@ -58,6 +62,7 @@ public class CategoryController : Controller
         return View(category);
     }
 
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Edit/{id:int}")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, [Bind("CategoryId, Name, Description")] Category category)
@@ -98,6 +103,7 @@ public class CategoryController : Controller
         return _context.Categories.Any(e => e.CategoryId == id);
     }
     
+    [Authorize(Roles = "Admin, Manager")]
     [HttpGet("Delete/{id:int}")]
     public IActionResult Delete(int id)
     {
@@ -111,6 +117,7 @@ public class CategoryController : Controller
         return View(category);
     }
     
+    [Authorize(Roles = "Admin, Manager")]
     [HttpPost("Delete/{categoryId:int}"), ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int categoryId)
