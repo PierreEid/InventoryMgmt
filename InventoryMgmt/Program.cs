@@ -38,30 +38,37 @@ builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+app.MapStaticAssets();
+
 var scope = app.Services.CreateScope();
 await IdentitySeeder.SeedRolesAsync(scope.ServiceProvider);
 await IdentitySeeder.SeedAdminAsync(scope.ServiceProvider);
 
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configure global errors
+if (!app.Environment.IsDevelopment()) 
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    // Global exception handler for unhandled exceptions (500)
+    app.UseExceptionHandler("/Error/ServerError");
+
+    // Handle 404 and other status codes
+    app.UseStatusCodePagesWithReExecute("/Error/Status", "?code={0}");
+
+    app.UseHsts(); 
+}
+else
+{
+    app.UseDeveloperExceptionPage(); // For development debugging
 }
 
+
 app.UseHttpsRedirection();
+
 app.UseRouting();
-
 app.UseSession();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
-
-
-app.MapStaticAssets();
 
 app.MapControllerRoute(
         name: "areas",
@@ -69,8 +76,8 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.MapControllerRoute(
-        name: "default", 
-        pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+).WithStaticAssets();
 
 app.Run();
