@@ -1,27 +1,27 @@
-@model List<Order>
+@model List<InventoryMgmt.Areas.ProductManagement.Models.Order>
 
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = "All Orders";
     Layout = "_Layout";
 }
 
-@if (TempData["success"] != null)
-{
-<div class="alert alert-success" role="alert">
-    @TempData["success"]
-</div>
-}
+<h2>All Orders</h2>
 
-<h2>Orders</h2>
-@if (Model.Any())
+@if (!Model.Any())
 {
-    <table class="table">
+    <div class="alert alert-info">No orders have been placed yet.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
         <thead>
         <tr>
             <th>Order ID</th>
-            <th>Customer</th>
-            <th>Order Date</th>
+            <th>Name</th>
+            <th>User Email</th>
+            <th>Date</th>
             <th>Total</th>
+            <th>Items</th>
         </tr>
         </thead>
         <tbody>
@@ -30,14 +30,19 @@
             <tr>
                 <td>@order.OrderId</td>
                 <td>@order.CustomerName</td>
-                <td>@order.OrderDate</td>
+                <td>@order.UserEmail</td>
+                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
                 <td>@order.Total.ToString("C")</td>
+                <td>
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product?.ProductName x @item.Quantity</li>
+                        }
+                    </ul>
+                </td>
             </tr>
         }
         </tbody>
     </table>
-}
-else
-{
-    <p>There are currently no orders to display.</p>
 }

@@ -3,7 +3,9 @@ using InventoryMgmt.Data;
 using InventoryMgmt.Models;
 using InventoryMgmt.Areas.ProductManagement.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 
@@ -13,11 +15,13 @@ namespace InventoryMgmt.Areas.ProductManagement.Controllers;
 public class CartController : Controller
 {
     private readonly ApplicationDbContext _context; // Holds the db context
+    private readonly UserManager<IdentityUser> _userManager;
     
     // Dependency injection
-    public CartController(ApplicationDbContext context)
+    public CartController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
     [HttpGet("")]
@@ -90,19 +94,20 @@ public class CartController : Controller
     // Checkout: Save Order to Database
     [HttpPost("PlaceOrder")]
     [ValidateAntiForgeryToken]
-    public IActionResult PlaceOrder(string Name)
+    public async Task<IActionResult> PlaceOrder(string Name)
     {
-        // Get the cart from session
         var cart = GetCart();
-        
-        // Return to Index if there are no products in cart
         if (!cart.Any())
-        {
             return RedirectToAction("Index");
+
+        string? userEmail = null;
+
+        if (User.Identity.IsAuthenticated)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            userEmail = user?.Email;
         }
-        
-        
-        // Create a new order
+
         var order = new Order
         {
             CustomerName = Name,
@@ -113,38 +118,30 @@ public class CartController : Controller
                 ProductId = i.ProductId,
                 Quantity = i.Quantity,
                 Price = i.Price
-            }).ToList()
+            }).ToList(),
+            UserEmail = userEmail
         };
-        
-        // Add to the database
+
         _context.Orders.Add(order);
-        
-        // Commit changes
         _context.SaveChanges();
 
-        // Decrement the item from stock by looping over each product
         foreach (var item in cart)
         {
-            // Find the product in db
             var product = _context.Products.Find(item.ProductId);
             if (product != null)
             {
-                // Decrement one
                 product.Quantity -= item.Quantity;
-                // Update new quanitity
                 _context.Products.Update(product);
             }
         }
-        
-        // Commit the changes
-        _context.SaveChanges();
 
-        // Clear the cart from session
+        _context.SaveChanges();
         HttpContext.Session.Remove("Cart");
 
         TempData["success"] = $"Your order (#{order.OrderId}) has been placed!";
-        return RedirectToAction("Index", "Order");
+        return RedirectToAction("MyOrders", "Order");
     }
+
     
     // Get cart from session
     private List<Cart> GetCart()
@@ -158,4 +155,5 @@ public class CartController : Controller
     {
         HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(cart));
     }
+    
 }

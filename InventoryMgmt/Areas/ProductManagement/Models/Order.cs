@@ -14,4 +14,6 @@ public class Order
     public double Total { get; set; }
     
     public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    
+    public string? UserEmail { get; set; }
 }
