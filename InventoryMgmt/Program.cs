@@ -96,4 +96,19 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
 ).WithStaticAssets();
 
+try
+{
+    using (var migrationScope = app.Services.CreateScope())
+    {
+        var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Migration error: {ex.Message}");
+}
+
+
+
 app.Run();
