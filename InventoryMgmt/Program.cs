@@ -47,8 +47,6 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 
-
-
 // Inject our SendGrid email sender
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
@@ -95,20 +93,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 ).WithStaticAssets();
-
-try
-{
-    using (var migrationScope = app.Services.CreateScope())
-    {
-        var dbContext = migrationScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        dbContext.Database.Migrate();
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Migration error: {ex.Message}");
-}
-
-
 
 app.Run();
