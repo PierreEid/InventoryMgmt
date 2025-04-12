@@ -71,11 +71,40 @@ public class CartController : Controller
             }
 
             SaveCart(cart);
-            return Json(new { message = $"{product.ProductName} added to cart." });
+            return Json(new { message = $"{product.ProductName} added to cart.", quantity = item?.Quantity ?? 1 });
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error adding product to cart");
+            return StatusCode(500);
+        }
+    }
+
+    [HttpGet("Decrement/{productId:int}")]
+    public IActionResult Decrement(int productId)
+    {
+        try
+        {
+            var cart = GetCart();
+            var item = cart.FirstOrDefault(i => i.ProductId == productId);
+
+            if (item != null)
+            {
+                item.Quantity--;
+                if (item.Quantity <= 0)
+                {
+                    cart.Remove(item);
+                }
+
+                SaveCart(cart);
+                return Json(new { message = $"Updated quantity for {item.ProductName}.", quantity = item.Quantity });
+            }
+
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error decrementing product quantity");
             return StatusCode(500);
         }
     }
@@ -88,12 +117,12 @@ public class CartController : Controller
             var cart = GetCart();
             cart.RemoveAll(i => i.ProductId == productId);
             SaveCart(cart);
-            return RedirectToAction("Index");
+            return Json(new { message = "Product removed from cart." });
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error removing item from cart");
-            return RedirectToAction("ServerError", "Error", new { area = "" });
+            return StatusCode(500);
         }
     }
 
