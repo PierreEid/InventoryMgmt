@@ -47,7 +47,7 @@ else
 
 <h3>Total: <span id="cart-total">@Model.Sum(i => i.Price * i.Quantity).ToString("C")</span></h3>
 
-<form asp-action="PlaceOrder" method="post">
+<form asp-action="PlaceOrder" method="post" id="place-order-form">
     <div class="form-group">
         <label for="Name" class="form-label">Your name for this order:</label>
         <input type="text" id="Name" name="Name" class="form-control" required>
@@ -59,10 +59,12 @@ else
         <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
     </div>
 </form>
+
+
 }
 
 @section Scripts {
-<script>
+    <script>
     function updateTotal() {
         let total = 0;
         $("tbody tr").each(function () {
@@ -131,4 +133,33 @@ else
         }, 1000);
     });
 </script>
+<script>
+    $("#place-order-form").on("submit", function (e) {
+        e.preventDefault(); // prevent normal form submit
+
+        $("#global-spinner").removeClass("d-none");
+
+        const formData = $(this).serialize();
+
+        setTimeout(() => {
+            $.ajax({
+                url: "/ProductManagement/Cart/PlaceOrder",
+                method: "POST",
+                data: formData,
+                success: function () {
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = "/ProductManagement/Order/MyOrders";
+                    }, 1000);
+                },
+                error: function () {
+                    window.location.href = "/Error/ServerError";
+                }
+            });
+        }, 1000);
+    });
+
+</script>    
 }
+
+
