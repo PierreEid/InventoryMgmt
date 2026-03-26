@@ -56,6 +56,7 @@ A full-stack inventory management application built with ASP.NET Core MVC, Entit
 
 5. Apply the following SQL script in PGAdmin to populate database:
 
+```bash
 INSERT INTO "Categories" ("Name", "Description") VALUES
 ('Electronics', 'Electronic devices and accessories'),
 ('Office Supplies', 'Pens, paper, and office essentials'),
@@ -66,6 +67,7 @@ INSERT INTO "Products" ("ProductName", "CategoryId", "Price", "Quantity", "LowSt
 ('USB-C Hub', 1, 49.99, 30, 5),
 ('Notebook Pack', 2, 12.99, 100, 20),
 ('Standing Desk', 3, 399.99, 10, 2);
+```
 
 6. Run the application:
    ```bash
