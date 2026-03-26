@@ -2,9 +2,13 @@
 
 A full-stack inventory management application built with ASP.NET Core MVC, Entity Framework Core, and PostgreSQL. Provides CRUD operations for managing inventory items through a server-rendered web interface.
 
-![Products](products.png)
-![Cart](full_cart.png)
-![Orders](order_history.png)
+## Screenshots
+
+![Products](products.png "Products")
+
+![Cart](full_cart.png "Cart")
+
+![Orders](order_history.png "Order History")
 ---
 
 ## Tech Stack
